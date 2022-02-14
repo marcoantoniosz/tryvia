@@ -27,7 +27,7 @@ export default class Login extends Component {
     }
   }
 
-  // funcao para validar email link: https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
+  // funcao para  validar email link: https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
   validateEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
