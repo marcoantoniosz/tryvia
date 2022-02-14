@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import PropTypes from 'prop-types';
+import { getTokenThunk } from '../redux/actions';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
 
@@ -8,6 +12,7 @@ export default class Login extends Component {
       name: '',
       email: '',
       isDisabled: true,
+      toGameScreen: false,
     };
   }
 
@@ -16,6 +21,12 @@ export default class Login extends Component {
     this.setState({
       [name]: value,
     }, () => this.validadeButton());
+  }
+
+  // funcao para  validar email link: https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
+  validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
   }
 
   validadeButton = () => {
@@ -27,14 +38,18 @@ export default class Login extends Component {
     }
   }
 
-  // funcao para  validar email link: https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
-  validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
+  // da um fetchAPI e salva o token na store, pega o token da store e salva no local storage, da o redirect
+  clickButton = async (event) => {
+    event.preventDefault();
+    const { getTokenProp } = this.props;
+    await getTokenProp();
+    const { token } = this.props;
+    localStorage.setItem('token', token);
+    this.setState({ toGameScreen: true });
   }
 
   render() {
-    const { name, email, isDisabled } = this.state;
+    const { name, email, isDisabled, toGameScreen } = this.state;
     return (
       <div>
         <form>
@@ -58,11 +73,28 @@ export default class Login extends Component {
             type="submit"
             disabled={ isDisabled }
             data-testid="btn-play"
+            onClick={ this.clickButton }
           >
             Play
           </button>
+          {toGameScreen && <Redirect to="/game" />}
         </form>
       </div>
     );
   }
 }
+
+Login.propTypes = {
+  getTokenProp: PropTypes.func,
+  token: PropTypes.string,
+}.isRequired;
+
+const mapStateToProps = (state) => ({
+  token: state.token,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getTokenProp: () => dispatch(getTokenThunk()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
