@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
-import { getTokenThunk } from '../redux/actions';
+import { getTokenThunk, savePlayerData } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -23,7 +23,7 @@ class Login extends Component {
     }, () => this.validadeButton());
   }
 
-  // funcao para  validar email link: https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
+  // FONTE: funcao para  validar email link: https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
   validateEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
@@ -41,7 +41,9 @@ class Login extends Component {
   // da um fetchAPI e salva o token na store, pega o token da store e salva no local storage, da o redirect
   clickButton = async (event) => {
     event.preventDefault();
-    const { getTokenProp } = this.props;
+    const { name, email } = this.state;
+    const { getTokenProp, playerDataDiscpatch } = this.props;
+    playerDataDiscpatch({ name, assertions: '', score: 0, gravatarEmail: email });
     await getTokenProp();
     const { token } = this.props;
     localStorage.setItem('token', token);
@@ -100,6 +102,7 @@ class Login extends Component {
 Login.propTypes = {
   getTokenProp: PropTypes.func,
   token: PropTypes.string,
+  playerDataDiscpatch: PropTypes.func,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
@@ -108,6 +111,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getTokenProp: () => dispatch(getTokenThunk()),
+  playerDataDiscpatch: (payload) => dispatch(savePlayerData(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
