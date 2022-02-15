@@ -48,6 +48,12 @@ class Login extends Component {
     this.setState({ toGameScreen: true });
   }
 
+  // função que encaminha para a página settings
+  handleSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   render() {
     const { name, email, isDisabled, toGameScreen } = this.state;
     return (
@@ -78,6 +84,13 @@ class Login extends Component {
             Play
           </button>
           {toGameScreen && <Redirect to="/game" />}
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.handleSettings }
+          >
+            Settings
+          </button>
         </form>
       </div>
     );
