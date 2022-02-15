@@ -42,8 +42,8 @@ class Login extends Component {
   clickButton = async (event) => {
     event.preventDefault();
     const { name, email } = this.state;
-    const { getTokenProp, playerDataDiscpatch } = this.props;
-    playerDataDiscpatch({ name, assertions: '', score: 0, gravatarEmail: email });
+    const { getTokenProp, savePlayerDataProp } = this.props;
+    savePlayerDataProp({ name, assertions: '', score: 0, gravatarEmail: email });
     await getTokenProp();
     const { token } = this.props;
     localStorage.setItem('token', token);
@@ -102,7 +102,7 @@ class Login extends Component {
 Login.propTypes = {
   getTokenProp: PropTypes.func,
   token: PropTypes.string,
-  playerDataDiscpatch: PropTypes.func,
+  savePlayerDataProp: PropTypes.func,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
@@ -111,7 +111,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getTokenProp: () => dispatch(getTokenThunk()),
-  playerDataDiscpatch: (payload) => dispatch(savePlayerData(payload)),
+  savePlayerDataProp: (payload) => dispatch(savePlayerData(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
