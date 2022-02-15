@@ -1,3 +1,5 @@
+import { PLAYER_DATA } from '../actions';
+
 const INITIAL_STATE = {
   name: '',
   assertions: '',
@@ -7,6 +9,8 @@ const INITIAL_STATE = {
 
 function player(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case PLAYER_DATA:
+    return action.payload;
   default:
     return state;
   }
