@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import fetchQuestions from '../helpers/fetchQuestions';
 import { getTokenThunk } from '../redux/actions';
+import '../App.css';
 
 class Questions extends Component {
   constructor() {
@@ -10,6 +11,8 @@ class Questions extends Component {
     this.state = {
       results: {},
       index: 0,
+      wrongAs: '',
+      rightAs: '',
     };
   }
 
@@ -41,6 +44,8 @@ class Questions extends Component {
   handleClick = () => {
     this.setState((prevState) => ({
       index: prevState.index + 1,
+      wrongAs: '',
+      rightAs: '',
     }));
   }
   // FONTE: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
@@ -68,6 +73,21 @@ class Questions extends Component {
     return `wrong-answer-${teste}`;
   }
 
+  handleAnswer = () => {
+    this.setState({
+      wrongAs: '3px solid rgb(255, 0, 0)',
+      rightAs: '3px solid rgb(6, 240, 15)',
+    });
+  }
+
+  styleChange = (option, correct) => {
+    const { wrongAs, rightAs } = this.state;
+    if (option === correct) {
+      return { border: rightAs };
+    }
+    return { border: wrongAs };
+  }
+
   render() {
     const question = this.getQuestions();
     if (question) {
@@ -81,11 +101,13 @@ class Questions extends Component {
             {
               shuffleOptions.map((option, index) => (
                 <button
+                  value={ option }
                   key={ index }
                   type="button"
+                  style={ this.styleChange(option, question.correct_answer) }
+                  onClick={ () => this.handleAnswer() }
                   data-testid={
-                    this.verifyAnswer(question.correct_answer,
-                      option,
+                    this.verifyAnswer(question.correct_answer, option,
                       question.incorrect_answers)
                   }
                 >
