@@ -38,7 +38,6 @@ const mapStateToProps = ({ player }) => ({
 
 Header.propTypes = {
   player: propTypes.shape({
-    assertions: propTypes.string.isRequired,
     gravatarEmail: propTypes.string.isRequired,
     name: propTypes.string.isRequired,
     score: propTypes.number.isRequired,

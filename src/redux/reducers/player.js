@@ -1,8 +1,8 @@
-import { PLAYER_DATA, SAVE_SCORE } from '../actions';
+import { PLAYER_DATA, SAVE_SCORE, CORRECT_ANSWER } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
-  assertions: '',
+  assertions: 0,
   score: 0,
   gravatarEmail: '',
 };
@@ -16,6 +16,9 @@ function player(state = INITIAL_STATE, action) {
       ...state,
       score: action.payload,
     };
+  case CORRECT_ANSWER:
+    return { ...state,
+      assertions: state.assertions + 1 };
   default:
     return state;
   }
