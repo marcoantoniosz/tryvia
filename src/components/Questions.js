@@ -12,6 +12,7 @@ const INICIAL_POINTS = 10;
 const EASY = 1;
 const MEDIUM = 2;
 const HARD = 3;
+const LIMIT_INDEX_QUESTIONS = 4;
 
 class Questions extends Component {
   constructor() {
@@ -84,8 +85,13 @@ class Questions extends Component {
       rightAs: '',
       nextEnable: false,
     }));
+    if (index === LIMIT_INDEX_QUESTIONS) {
+      const { push } = this.props;
+      push('/feedback');
+    }
     this.setState({
-      question: results[index], timer: 30, isDisabled: true }, () => this.getOptions());
+      question: results[index + 1], timer: 30, isDisabled: true },
+    () => this.getOptions());
     this.startTimer();
   }
   // FONTE: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
@@ -156,6 +162,7 @@ class Questions extends Component {
       const { timer, question } = this.state;
       this.getPoints(Number(score), question.difficulty, timer);
     }
+    this.setState({ timer: 1 });
   }
 
   styleChange = (option, correct) => {
@@ -222,6 +229,7 @@ Questions.propTypes = {
   gravatarEmail: propTypes.string.isRequired,
   name: propTypes.string.isRequired,
   saveScoreProp: propTypes.func.isRequired,
+  push: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ token, player }) => ({
