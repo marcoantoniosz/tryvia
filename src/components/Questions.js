@@ -13,6 +13,7 @@ class Questions extends Component {
       index: 0,
       wrongAs: '',
       rightAs: '',
+      nextEnable: false,
     };
   }
 
@@ -46,6 +47,7 @@ class Questions extends Component {
       index: prevState.index + 1,
       wrongAs: '',
       rightAs: '',
+      nextEnable: false,
     }));
   }
   // FONTE: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
@@ -77,6 +79,7 @@ class Questions extends Component {
     this.setState({
       wrongAs: '3px solid rgb(255, 0, 0)',
       rightAs: '3px solid rgb(6, 240, 15)',
+      nextEnable: true,
     });
   }
 
@@ -90,6 +93,16 @@ class Questions extends Component {
 
   render() {
     const question = this.getQuestions();
+    const nextBtn = (
+      <button
+        type="button"
+        data-testid="btn-next"
+        onClick={ this.handleClick }
+      >
+        Próxima
+      </button>
+    );
+    const { nextEnable } = this.state;
     if (question) {
       const answerOptions = [question.correct_answer, ...question.incorrect_answers];
       const shuffleOptions = this.shuffleArray([...answerOptions]);
@@ -105,7 +118,7 @@ class Questions extends Component {
                   key={ index }
                   type="button"
                   style={ this.styleChange(option, question.correct_answer) }
-                  onClick={ () => this.handleAnswer() }
+                  onClick={ () => this.handleAnswer(option, question.correct_answer) }
                   data-testid={
                     this.verifyAnswer(question.correct_answer, option,
                       question.incorrect_answers)
@@ -115,10 +128,9 @@ class Questions extends Component {
                 </button>
               ))
             }
+            { nextEnable ? nextBtn : undefined }
           </div>
-          <button type="button" onClick={ this.handleClick }>
-            Próxima
-          </button>
+
         </div>
       );
     }
