@@ -7,27 +7,40 @@ const MIN_POINTS = 3;
 
 class FeedBack extends Component {
   render() {
-    const { correctAns } = this.props;
-    console.log(correctAns);
+    const { assertions, score } = this.props;
+    console.log(assertions);
     return (
       <div>
         <Header />
         <span
           data-testid="feedback-text"
         >
-          { correctAns < MIN_POINTS ? 'Could be better...' : 'Well Done!'}
+          { assertions < MIN_POINTS ? 'Could be better...' : 'Well Done!'}
         </span>
+        <br />
+        <p>
+          Pontos:
+          {' '}
+          <span data-testid="feedback-total-score">{ score }</span>
+        </p>
+        <p>
+          Total de Acertos:
+          {' '}
+          <span data-testid="feedback-total-question">{assertions}</span>
+        </p>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  correctAns: state.correctAnswer.correctAns,
+  assertions: state.player.assertions,
+  score: state.player.score,
 });
 
 FeedBack.propTypes = {
-  correctAns: propTypes.number.isRequired,
+  assertions: propTypes.number.isRequired,
+  score: propTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(FeedBack);

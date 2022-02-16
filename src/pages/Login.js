@@ -43,7 +43,7 @@ class Login extends Component {
     event.preventDefault();
     const { name, email } = this.state;
     const { getTokenProp, savePlayerDataProp } = this.props;
-    savePlayerDataProp({ name, assertions: '', score: 0, gravatarEmail: email });
+    savePlayerDataProp({ name, assertions: 0, score: 0, gravatarEmail: email });
     await getTokenProp();
     const { token } = this.props;
     localStorage.setItem('token', token);
