@@ -3,15 +3,10 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import fetchQuestions from '../helpers/fetchQuestions';
-import { getTokenThunk, saveScore } from '../redux/actions';
+import { getTokenThunk, saveScore, correctAnswer } from '../redux/actions';
 import '../App.css';
-
-const ONE_SECOND = 1000;
-const LIMIT_BUTTON_TIMER = 25;
-const INICIAL_POINTS = 10;
-const EASY = 1;
-const MEDIUM = 2;
-const HARD = 3;
+import { ONE_SECOND, LIMIT_BUTTON_TIMER, INICIAL_POINTS,
+  EASY, MEDIUM, HARD, LIMIT_INDEX_QUESTIONS } from '../helpers/consts';
 
 class Questions extends Component {
   constructor() {
@@ -84,8 +79,13 @@ class Questions extends Component {
       rightAs: '',
       nextEnable: false,
     }));
+    if (index === LIMIT_INDEX_QUESTIONS) {
+      const { push } = this.props;
+      push('/feedback');
+    }
     this.setState({
-      question: results[index], timer: 30, isDisabled: true }, () => this.getOptions());
+      question: results[index + 1], timer: 30, isDisabled: true },
+    () => this.getOptions());
     this.startTimer();
   }
   // FONTE: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
@@ -149,13 +149,16 @@ class Questions extends Component {
   }
 
   handleClickAnswer = (event, correct) => {
+    const { correctAnswerProp } = this.props;
     this.handleAnswer();
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     const { score } = ranking[0];
     if (event.target.value === correct) {
+      correctAnswerProp();
       const { timer, question } = this.state;
       this.getPoints(Number(score), question.difficulty, timer);
     }
+    this.setState({ timer: 1 });
   }
 
   styleChange = (option, correct) => {
@@ -217,12 +220,14 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
-  token: propTypes.string.isRequired,
-  getTokenProp: propTypes.func.isRequired,
-  gravatarEmail: propTypes.string.isRequired,
-  name: propTypes.string.isRequired,
-  saveScoreProp: propTypes.func.isRequired,
-};
+  token: propTypes.string,
+  getTokenProp: propTypes.func,
+  gravatarEmail: propTypes.string,
+  name: propTypes.string,
+  saveScoreProp: propTypes.func,
+  push: propTypes.func,
+  correctAnswerProp: propTypes.func,
+}.isRequired;
 
 const mapStateToProps = ({ token, player }) => ({
   token,
@@ -233,6 +238,7 @@ const mapStateToProps = ({ token, player }) => ({
 const mapDispatchToProps = (dispatch) => ({
   getTokenProp: () => dispatch(getTokenThunk()),
   saveScoreProp: (payload) => dispatch(saveScore(payload)),
+  correctAnswerProp: () => dispatch(correctAnswer()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
