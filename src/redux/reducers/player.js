@@ -1,4 +1,4 @@
-import { PLAYER_DATA } from '../actions';
+import { PLAYER_DATA, SAVE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -11,6 +11,11 @@ function player(state = INITIAL_STATE, action) {
   switch (action.type) {
   case PLAYER_DATA:
     return action.payload;
+  case SAVE_SCORE:
+    return {
+      ...state,
+      score: action.payload,
+    };
   default:
     return state;
   }
