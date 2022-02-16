@@ -5,7 +5,7 @@ import md5 from 'crypto-js/md5';
 
 class Header extends Component {
   render() {
-    const { player: { name, gravatarEmail } } = this.props;
+    const { player: { name, gravatarEmail, score } } = this.props;
     const emailHash = md5(gravatarEmail).toString();
     const image = (`https://www.gravatar.com/avatar/${emailHash}`);
     return (
@@ -24,7 +24,7 @@ class Header extends Component {
         <span>
           Placar:
           <span data-testid="header-score">
-            0
+            {score}
           </span>
         </span>
       </header>
