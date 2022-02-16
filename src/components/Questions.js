@@ -221,6 +221,7 @@ Questions.propTypes = {
   getTokenProp: propTypes.func.isRequired,
   gravatarEmail: propTypes.string.isRequired,
   name: propTypes.string.isRequired,
+  saveScoreProp: propTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ token, player }) => ({
