@@ -10,7 +10,6 @@ const MIN_POINTS = 3;
 class FeedBack extends Component {
   render() {
     const { assertions, score } = this.props;
-    console.log(assertions);
     return (
       <div>
         <Header />
@@ -38,6 +37,16 @@ class FeedBack extends Component {
             className="Play_Button"
           >
             Play Again
+          </button>
+        </Link>
+        <br />
+        <Link to="/ranking">
+          <button
+            data-testid="btn-ranking"
+            type="button"
+            className="Ranking_Button"
+          >
+            Ver Ranking
           </button>
         </Link>
       </div>
