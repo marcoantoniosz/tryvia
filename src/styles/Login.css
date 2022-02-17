@@ -1,8 +1,8 @@
-*{
+* {
   background-color: rgb(218, 218, 218);
 }
 
-.Form_Login{
+.Form_Login {
   align-items: center;
   background-color: rgb(141, 187, 230);
   border-radius: 30px;
@@ -16,7 +16,7 @@
   width: 500px;
 }
 
-.Login_Title{
+.Login_Title {
   background-color: rgb(141, 187, 230);
   color: rgb(92, 92, 92);
   font-size: 30px;
@@ -36,13 +36,13 @@
 
 .Login_Input:focus {
   background-color: rgb(179, 179, 179);
-  box-shadow: 0 0 0 0;
   border: none;
   border-bottom: 1px solid rgb(158, 158, 158);
+  box-shadow: 0 0 0 0;
   outline: 0;
 }
 
-.Login_Button{
+.Login_Button {
   background-color: rgb(106, 197, 113);
   border: rgb(179, 179, 179);
   border-radius: 8px;
@@ -54,6 +54,6 @@
   width: 90px;
 }
 
-.Login_Button:disabled{
+.Login_Button:disabled {
   background-color: rgb(179, 179, 179);
 }
