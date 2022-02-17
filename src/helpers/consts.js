@@ -5,3 +5,4 @@ export const EASY = 1;
 export const MEDIUM = 2;
 export const HARD = 3;
 export const LIMIT_INDEX_QUESTIONS = 4;
+export const EXPIDER_TOKEN_RESULT = 3;
