@@ -21,7 +21,7 @@ class Header extends Component {
           className="Header_Title"
           data-testid="header-player-name"
         >
-          Marina
+          {name}
         </h1>
         <span className="Header_Score">
           Placar:
