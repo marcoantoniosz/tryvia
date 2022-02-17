@@ -57,7 +57,3 @@
 .Login_Button:disabled{
   background-color: rgb(179, 179, 179);
 }
-
-.Login_Button:hover{
-  cursor: pointer;
-}
