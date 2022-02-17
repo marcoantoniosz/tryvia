@@ -5,7 +5,7 @@ import md5 from 'crypto-js/md5';
 import fetchQuestions from '../helpers/fetchQuestions';
 import { getTokenThunk, saveScore, correctAnswer } from '../redux/actions';
 import '../App.css';
-import { ONE_SECOND, LIMIT_BUTTON_TIMER, INICIAL_POINTS,
+import { ONE_SECOND, LIMIT_BUTTON_TIMER, INICIAL_POINTS, EXPIDER_TOKEN_RESULT,
   EASY, MEDIUM, HARD, LIMIT_INDEX_QUESTIONS } from '../helpers/consts';
 import '../styles/Questions.css';
 
@@ -31,14 +31,26 @@ class Questions extends Component {
     const { gravatarEmail, name } = this.props;
     const emailHash = md5(gravatarEmail).toString();
     const image = (`https://www.gravatar.com/avatar/${emailHash}`);
-    localStorage.setItem('ranking', JSON.stringify([{ name, score: 0, picture: image }]));
+    const dados = JSON.parse(localStorage.getItem('ranking'));
+    if (dados) {
+      const playerIndex = dados.findIndex((dado) => dado.name === name);
+      if (playerIndex >= 0) {
+        dados[playerIndex].score = 0;
+        localStorage.setItem('ranking', JSON.stringify(dados));
+      } else {
+        localStorage.setItem('ranking', JSON.stringify(
+          [...dados, { name, score: 0, picture: image }],
+        ));
+      }
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([
+        { name, score: 0, picture: image }]));
+    }
   }
 
   startTimer = () => {
     const Interval = setInterval(() => {
-      this.setState((prevState) => ({
-        timer: prevState.timer - 1,
-      }));
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
       const { timer } = this.state;
       if (timer === LIMIT_BUTTON_TIMER) {
         this.setState({ isDisabled: false });
@@ -51,7 +63,6 @@ class Questions extends Component {
   }
 
   handleQuestions = async () => {
-    const EXPIDER_TOKEN_RESULT = 3;
     const { index } = this.state;
     const { token, getTokenProp } = this.props;
     const { response_code: responseCode, results } = await fetchQuestions(token);
@@ -92,14 +103,10 @@ class Questions extends Component {
   // FONTE: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
 
   shuffleArray = (arr) => {
-  // Loop em todos os elementos
     for (let i = arr.length - 1; i > 0; i -= 1) {
-      // Escolhendo elemento aleatório
       const j = Math.floor(Math.random() * (i + 1));
-      // Reposicionando elemento
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-    // Retornando array com aleatoriedade
     return arr;
   }
 
@@ -123,7 +130,7 @@ class Questions extends Component {
     });
   }
 
-  getPoints = (score, dificulty, timer) => {
+  getPoints = (dificulty, timer) => {
     let points;
     switch (dificulty) {
     case 'easy':
@@ -138,35 +145,28 @@ class Questions extends Component {
     default:
       break;
     }
-    // console.log(score + points);
-    const { gravatarEmail, name, saveScoreProp } = this.props;
-    const total = score + points;
-    saveScoreProp(total);
-    const emailHash = md5(gravatarEmail).toString();
-    const image = (`https://www.gravatar.com/avatar/${emailHash}`);
-    localStorage.setItem('ranking',
-      JSON.stringify([{ name, score: total, picture: image }]));
-    // localStorage.setItem('ranking', JSON.stringify([{ score: score + points }]));
+    const { name, saveScoreProp } = this.props;
+    const dados = JSON.parse(localStorage.getItem('ranking'));
+    const playerIndex = dados.findIndex((dado) => dado.name === name);
+    dados[playerIndex].score += points;
+    saveScoreProp(dados[playerIndex].score);
+    localStorage.setItem('ranking', JSON.stringify(dados));
   }
 
   handleClickAnswer = (event, correct) => {
     const { correctAnswerProp } = this.props;
     this.handleAnswer();
-    const ranking = JSON.parse(localStorage.getItem('ranking'));
-    const { score } = ranking[0];
     if (event.target.value === correct) {
       correctAnswerProp();
       const { timer, question } = this.state;
-      this.getPoints(Number(score), question.difficulty, timer);
+      this.getPoints(question.difficulty, timer);
     }
     this.setState({ timer: 1 });
   }
 
   styleChange = (option, correct) => {
     const { wrongAs, rightAs } = this.state;
-    if (option === correct) {
-      return { border: rightAs };
-    }
+    if (option === correct) return { border: rightAs };
     return { border: wrongAs };
   }
 
@@ -217,9 +217,7 @@ class Questions extends Component {
       );
     }
     return (
-      <div>
-        Loading
-      </div>
+      <div> Loading </div>
     );
   }
 }
