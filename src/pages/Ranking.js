@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import propTypes from 'prop-types';
-import Header from '../components/Header';
 import '../styles/Feedback.css';
 
 class Ranking extends Component {
