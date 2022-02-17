@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { getTokenThunk, savePlayerData } from '../redux/actions';
+import '../styles/Login.css';
 
 class Login extends Component {
   constructor() {
@@ -60,8 +61,10 @@ class Login extends Component {
     const { name, email, isDisabled, toGameScreen } = this.state;
     return (
       <div>
-        <form>
+        <form className="Form_Login">
+          <h3 className="Login_Title"> Trivia </h3>
           <input
+            className="Login_Input"
             type="text"
             name="name"
             value={ name }
@@ -70,6 +73,7 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
           <input
+            className="Login_Input"
             type="email"
             name="email"
             value={ email }
@@ -78,6 +82,7 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
           <button
+            className="Login_Button"
             type="submit"
             disabled={ isDisabled }
             data-testid="btn-play"
@@ -87,6 +92,7 @@ class Login extends Component {
           </button>
           {toGameScreen && <Redirect to="/game" />}
           <button
+            className="Login_Button"
             type="button"
             data-testid="btn-settings"
             onClick={ this.handleSettings }
