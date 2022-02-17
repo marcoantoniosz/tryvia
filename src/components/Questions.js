@@ -7,6 +7,7 @@ import { getTokenThunk, saveScore, correctAnswer } from '../redux/actions';
 import '../App.css';
 import { ONE_SECOND, LIMIT_BUTTON_TIMER, INICIAL_POINTS,
   EASY, MEDIUM, HARD, LIMIT_INDEX_QUESTIONS } from '../helpers/consts';
+import '../styles/Questions.css';
 
 class Questions extends Component {
   constructor() {
@@ -172,6 +173,7 @@ class Questions extends Component {
   render() {
     const nextBtn = (
       <button
+        className="Next_Button"
         type="button"
         data-testid="btn-next"
         onClick={ this.handleClick }
@@ -183,13 +185,16 @@ class Questions extends Component {
     if (Object.keys(question).length > 0) {
       return (
         <div>
-          <span>{ timer }</span>
-          <h2 data-testid="question-category">{question.category}</h2>
-          <p data-testid="question-text">{question.question}</p>
+          <span className="Timer">{ timer }</span>
+          <h2 data-testid="question-category" className="Category">
+            {question.category}
+          </h2>
+          <p data-testid="question-text" className="Question">{question.question}</p>
           <div data-testid="answer-options">
             {
               shuffleOptions.map((option, index) => (
                 <button
+                  className="Options_Button"
                   value={ option }
                   key={ index }
                   type="button"

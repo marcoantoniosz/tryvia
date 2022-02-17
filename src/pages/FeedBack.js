@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import Header from '../components/Header';
+import '../styles/Feedback.css';
 
 const MIN_POINTS = 3;
 
@@ -15,22 +16,29 @@ class FeedBack extends Component {
         <Header />
         <span
           data-testid="feedback-text"
+          className="text main"
         >
           { assertions < MIN_POINTS ? 'Could be better...' : 'Well Done!'}
         </span>
         <br />
-        <p>
+        <p className="text">
           Pontos:
           {' '}
-          <span data-testid="feedback-total-score">{ score }</span>
+          <span data-testid="feedback-total-score" className="text">{ score }</span>
         </p>
-        <p>
+        <p className="text">
           Total de Acertos:
           {' '}
-          <span data-testid="feedback-total-question">{assertions}</span>
+          <span data-testid="feedback-total-question" className="text">{assertions}</span>
         </p>
         <Link to="/">
-          <button data-testid="btn-play-again" type="button">Play Again</button>
+          <button
+            data-testid="btn-play-again"
+            type="button"
+            className="Play_Button"
+          >
+            Play Again
+          </button>
         </Link>
       </div>
     );
