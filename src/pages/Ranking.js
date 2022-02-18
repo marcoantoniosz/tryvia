@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import '../styles/Feedback.css';
+import '../styles/Ranking.css';
 
 class Ranking extends Component {
   constructor() {
@@ -27,20 +27,35 @@ class Ranking extends Component {
     if (dados.lenght === 0) return (<div>Nenhum dado disponível</div>);
     return (
       <div>
-        <h1 data-testid="ranking-title">
-          Ranking
-        </h1>
+        <header>
+          <h1 className="ranking_title" data-testid="ranking-title">
+            Ranking
+          </h1>
+        </header>
+        <div className="rank_content">
+          {
+            dados.map(({ name, picture, score }, index) => (
+              <div key={ index } className="player_card">
 
-        {
-          dados.map(({ name, picture, score }, index) => (
-            <div key={ index }>
-              <h2 data-testid={ `player-name-${index}` }>{name}</h2>
-              <img src={ picture } alt={ name } />
-              <h3 data-testid={ `player-score-${index}` }>{score}</h3>
-            </div>
-          ))
-        }
+                <img src={ picture } alt={ name } className="player_image" />
+                <h2
+                  className="ranking_subtitle"
+                  data-testid={ `player-name-${index}` }
+                >
+                  {name}
 
+                </h2>
+                <h2
+                  className="ranking_subtitle"
+                  data-testid={ `player-score-${index}` }
+                >
+                  {score}
+
+                </h2>
+              </div>
+            ))
+          }
+        </div>
         <Link to="/">
           <button
             data-testid="btn-go-home"
