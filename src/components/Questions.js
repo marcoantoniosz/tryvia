@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
+import { decode } from 'he';
 import fetchQuestions from '../helpers/fetchQuestions';
 import { getTokenThunk, saveScore, correctAnswer } from '../redux/actions';
 import '../App.css';
@@ -187,9 +188,14 @@ class Questions extends Component {
         <div>
           <span className="Timer">{ timer }</span>
           <h2 data-testid="question-category" className="Category">
-            {question.category}
+            {decode(question.category)}
           </h2>
-          <p data-testid="question-text" className="Question">{question.question}</p>
+          <p
+            data-testid="question-text"
+            className="Question"
+          >
+            {decode(question.question)}
+          </p>
           <div data-testid="answer-options">
             {
               shuffleOptions.map((option, index) => (
@@ -207,7 +213,7 @@ class Questions extends Component {
                   }
                   disabled={ isDisabled }
                 >
-                  {option}
+                  {decode(option)}
                 </button>
               ))
             }
