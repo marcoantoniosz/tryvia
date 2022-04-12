@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/tryvia/static/css/main.ffb929ce.chunk.css",
+    "main.js": "/tryvia/static/js/main.95453c03.chunk.js",
+    "main.js.map": "/tryvia/static/js/main.95453c03.chunk.js.map",
+    "runtime-main.js": "/tryvia/static/js/runtime-main.12eb6c4f.js",
+    "runtime-main.js.map": "/tryvia/static/js/runtime-main.12eb6c4f.js.map",
+    "static/js/2.9913769a.chunk.js": "/tryvia/static/js/2.9913769a.chunk.js",
+    "static/js/2.9913769a.chunk.js.map": "/tryvia/static/js/2.9913769a.chunk.js.map",
+    "index.html": "/tryvia/index.html",
+    "precache-manifest.a68d9900b8f7af55cb348b9cc14ce21f.js": "/tryvia/precache-manifest.a68d9900b8f7af55cb348b9cc14ce21f.js",
+    "service-worker.js": "/tryvia/service-worker.js",
+    "static/css/main.ffb929ce.chunk.css.map": "/tryvia/static/css/main.ffb929ce.chunk.css.map",
+    "static/js/2.9913769a.chunk.js.LICENSE.txt": "/tryvia/static/js/2.9913769a.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.12eb6c4f.js",
+    "static/js/2.9913769a.chunk.js",
+    "static/css/main.ffb929ce.chunk.css",
+    "static/js/main.95453c03.chunk.js"
+  ]
+}
